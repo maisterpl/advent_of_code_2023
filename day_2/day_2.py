@@ -14,9 +14,7 @@ def IDs_games(games: list, red_c: int = 0, green_c: int = 0, blue_c: int = 0):
     for id, game in enumerate(games):
         for sset in game:
             for pos in sset:
-                temp_red_c = 0
-                temp_green_c = 0
-                temp_blue_c = 0
+                
                 if pos[1] == 'red' and int(pos[0]) > red_c:
                     if (id + 1) in list_of_the_IDs_games:
                         list_of_the_IDs_games.remove(id + 1)
@@ -31,9 +29,40 @@ def IDs_games(games: list, red_c: int = 0, green_c: int = 0, blue_c: int = 0):
                     
                 
     return list_of_the_IDs_games
-                    
 
+#         one game:
+# [
+#  [['3', 'blue'], ['4', 'red']], -> set
+#  [['1', 'red'], ['2', 'green'], ['6', 'blue']], 
+#  [['2', 'green']]
+# ]
+def power_of_set(data: list):
+    power_of_set: int = 0
+    num_of_cubes_of_each_color_dict: dict = {
+            'red': [],
+            'green': [],
+            'blue': [],
+        }  # key='blue' : value [3, 6, ...]
+    for set in data:
+        for cube in set:
+            num_of_cubes_of_each_color_dict[ cube[1] ].append( int(cube[0]) ) 
 
+    red_min = max(num_of_cubes_of_each_color_dict['red'])
+    green_min = max(num_of_cubes_of_each_color_dict['green'])
+    blue_min = max(num_of_cubes_of_each_color_dict['blue'])
+    
+    power_of_set = red_min * green_min * blue_min
+    
+    return power_of_set
+
+def ans_part_2(list_of_game: list):
+    sum_of_all_games: int = 0
+    for game in list_of_game:
+        sum_of_all_games += power_of_set(data= game)
+        
+    return sum_of_all_games
+    
+    
 ### TEST PART 1 ###
 print('='* 50)
 print('### TEST PART 1 ###')
@@ -56,5 +85,17 @@ print(f'Answer part 1: {sum(list_of_ids_games_part_1)}.')
 
 
 ### TEST PART 2 ###
+print('\n' + '='* 50)
+print('### TEST PART 2 ###')
+test_def_power_of_set = power_of_set(data= [[['3', 'blue'], ['4', 'red']], [['1', 'red'], ['2', 'green'], ['6', 'blue']], [['2', 'green']]] )
+print(test_def_power_of_set)
+print('### TEST PART 2 VOL 1.2 ###')
 
-
+sum_of_all_games = ans_part_2(list_of_game_test_1)
+print(sum_of_all_games)
+    
+### ANS PART 2 ###
+print('='* 50)
+print('### ANS PART 2 ###')
+sum_of_all_games_part_2 = ans_part_2(list_of_game= list_of_games_part_1)
+print(sum_of_all_games_part_2)
